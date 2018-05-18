@@ -44,7 +44,7 @@ ReadData <- function(inputFile,metabid=NULL,geneid=NULL, logmetab=FALSE,loggene=
         stop("CSV input file does not exist")
     }
     # Make into df to make access easier
-    csvfile <- as.data.frame(utils::read.csv(inputFile, header=TRUE,row.names=1))
+    csvfile <- as.data.frame(data.table::fread(inputFile, header=TRUE,row.names=1))
 
     # Check column names are correct
     if (colnames(csvfile)!="filenames") {
@@ -64,29 +64,29 @@ ReadData <- function(inputFile,metabid=NULL,geneid=NULL, logmetab=FALSE,loggene=
     temp <- paste0(mydir,"/",as.character(csvfile['metabData',]))
     if(!file.exists(temp)) {
 	stop(paste("File", temp, "does not exist"))} else {
-    ids <- utils::read.csv(temp,check.names=F)[,1]
+    ids <- data.table::fread(temp,check.names=F)[,1]
     if(length(ids) != length(unique(ids))) {
 	stop(paste("Error: your input file",temp,"contains has duplicate entries in column 1. Please make sure you have one row per metabolite"))
     } else {
-    	MData<-utils::read.csv(temp,row.names = 1,check.names=F)
+    	MData<-data.table::fread(temp,row.names = 1,check.names=F)
     }
     }
 
     temp <- paste0(mydir,"/",as.character(csvfile['geneData',]))
     if(!file.exists(temp)) {
         stop(paste("File", temp, "does not exist"))} else {
-    ids <- utils::read.csv(temp,check.names=F)[,1]
+    ids <- data.table::fread(temp,check.names=F)[,1]
     if(length(ids) != length(unique(ids))) {
         stop(paste("Error: your input file",temp,"contains has duplicate entries in column 1. Please make sure you have one row per gene"))
     } else {
-    	GData<-utils::read.csv(temp,row.names = 1,check.names=F)}
+    	GData<-data.table::fread(temp,row.names = 1,check.names=F)}
     }
     temp <- paste0(mydir,"/",as.character(csvfile['metabMetaData',]))
     if(as.character(csvfile['metabMetaData',])=="") {
 	warning("No metadata provided for metabolites");MmetaData<-NULL;metabid=NULL; } else if
     (!file.exists(temp)) {
         stop(paste("File", temp, "does not exist"))} else {
-    MmetaData<-utils::read.csv(temp)
+    MmetaData<-data.table::fread(temp)
     colnames(MmetaData)[which(colnames(MmetaData)==metabid)]="id"}
 
    temp <- paste0(mydir,"/",as.character(csvfile['geneMetaData',]))
@@ -94,13 +94,13 @@ ReadData <- function(inputFile,metabid=NULL,geneid=NULL, logmetab=FALSE,loggene=
         warning("No metadata provided for genes");GmetaData<-NULL;geneid=NULL} else if
     (!file.exists(temp)) {
         stop(paste("File", temp, "does not exist"))} else {
-    GmetaData<-utils::read.csv(temp)
+    GmetaData<-data.table::fread(temp)
     colnames(GmetaData)[which(colnames(GmetaData)==geneid)]="id"}
 
     temp <- paste0(mydir,"/",as.character(csvfile['sampleMetaData',]))
     if(!file.exists(temp)) {
         stop(paste("File", temp, "does not exist"))} else {
-    pData<-utils::read.csv(temp,row.names = 1)}
+    pData<-data.table::fread(temp,row.names = 1)}
 
     #Create Multi
     GMdata <- CreateIntLimObject(genefdata=GmetaData, metabfdata=MmetaData,

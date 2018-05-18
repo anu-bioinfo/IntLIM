@@ -35,7 +35,7 @@ shinyServer(function(input, output, session) {
       myFile <- fixUploadedFilesNames(input$file1)
       indexfile = which(myFile$name == 'input.csv')
       if (indexfile == which(myFile$name == 'input.csv')) {
-        file <- read.csv(myFile$datapath[indexfile])
+        file <- fread(myFile$datapath[indexfile])
         rownames(file) <- file$type
         if (file["metabMetaData", "filenames"] == "") {
           return()
@@ -59,7 +59,7 @@ shinyServer(function(input, output, session) {
       myFile <- fixUploadedFilesNames(input$file1)
       indexfile = which(myFile$name == 'input.csv')
       if (indexfile == which(myFile$name == 'input.csv')) {
-        file <- read.csv(myFile$datapath[indexfile])
+        file <- fread(myFile$datapath[indexfile])
         rownames(file) <- file$type
         if (file["metabMetaData", "filenames"] == "") {
           return()
