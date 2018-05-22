@@ -14,6 +14,7 @@
 #' @param genedata gene expression (samples are in columns)
 #' @param logmetab T/F 
 #' @param loggene T/F
+#' @export
 CreateIntLimObject <- function(genefdata, metabfdata, pdata, geneid, metabid, 
 	metabdata, genedata, logmetab=FALSE,loggene=FALSE) {
 
