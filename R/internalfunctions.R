@@ -381,6 +381,7 @@ RunLM <- function(incommon, outcome="metabolite", type=NULL, covar=NULL) {
 #' @param clindata data frame with 1st column: expression of one analyte; 2nd column
 #' sample type (e.g. cancer/non-cancer)
 #' @param arraydata matrix of metabolite values
+#' @export
     getstatsOneLM <- function(form, clindata, arraydata) {
 	call=match.call()
         YY <- t(arraydata)                      # the data matrix
@@ -411,7 +412,7 @@ RunLM <- function(incommon, outcome="metabolite", type=NULL, covar=NULL) {
         p.val.coeff <- 2*stats::pt(-abs(t.coeff),df = (N-p))
         #methods::new('IntLimModel', call=call, model=form,
          list(# call=call, model=form,
-                #coefficients=bhat,
+                coefficients=bhat,
                 # predictions=yhat,
                 #df=c(rdf, edf),
                 #sse=sse,
